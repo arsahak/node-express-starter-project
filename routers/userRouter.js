@@ -11,8 +11,9 @@ const {
 } = require("../controllers/usersController");
 const { validateUserRegistration } = require("../validator/auth");
 const runValidation = require("../validator");
+const { isLoggedIn, isAdmin } = require("../middleware/auth");
 
-userRouter.get("/users", getAllUsers);
+userRouter.get("/users", isLoggedIn, isAdmin, getAllUsers);
 userRouter.get("/user/:id", getUserById);
 userRouter.post(
   "/user/register",
