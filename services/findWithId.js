@@ -3,6 +3,8 @@ const createError = require("http-errors");
 
 const findWithId = async (Model, id, options = {}) => {
   try {
+
+    
     const item = await Model.findById(id, options);
 
     if (!item) {

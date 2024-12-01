@@ -8,8 +8,11 @@ const {
   processRegister,
   activateUserAccount,
   updateUserById,
+  updateUserPassword,
+  forgetPassword,
+  resetPassword,
 } = require("../controllers/usersController");
-const { validateUserRegistration } = require("../validator/auth");
+const { validateUserRegistration, validateUserPassword, validateUserForgatPassword, validateUserResetPassword } = require("../validator/auth");
 const runValidation = require("../validator");
 const { isLoggedIn, isAdmin } = require("../middleware/auth");
 
@@ -24,5 +27,11 @@ userRouter.post(
 userRouter.post("/user/verify", activateUserAccount);
 userRouter.delete("/user/:id", deleteUserById);
 userRouter.put("/user/:id", updateUserById);
+userRouter.put("/password-update", isLoggedIn, validateUserPassword, runValidation, updateUserPassword);
+
+userRouter.post("/forget-password", isLoggedIn, validateUserForgatPassword, runValidation,forgetPassword);
+
+userRouter.post("/reset-password", isLoggedIn, validateUserResetPassword, runValidation,resetPassword);
 
 module.exports = { userRouter };
+// ([0-9a-fA-F]{24})

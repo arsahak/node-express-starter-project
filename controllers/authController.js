@@ -29,16 +29,27 @@ const userLogin = async (req, res, next) => {
       throw createError(403, "You are banned please contact with authority");
     }
 
-    const jwtToken = await createJsonWebToken({ user }, jwtSecretKey, {
-      expiresIn: "10m",
+    const accessToken = await createJsonWebToken({ user }, jwtSecretKey, {
+      expiresIn: "30d", 
     });
-
-    res.cookie("access_token", jwtToken, {
-      maxAge: 15 * 60 * 1000,
+    
+    res.cookie("accessToken", accessToken, {
+      maxAge: 30 * 24 * 60 * 60 * 1000, 
       httpOnly: true,
-      // secure: true,
-      sameSite: "none",
+      sameSite: "none", 
     });
+    
+
+    // const refreshToken = await createJsonWebToken({ user }, jwtSecretKey, {
+    //   expiresIn: "7d",
+    // });
+
+    // res.cookie("refreshToken", refreshToken, {
+    //   maxAge: 7 * 24 * 60 * 60 * 1000,
+    //   httpOnly: true,
+    //   // secure: true,
+    //   sameSite: "none",
+    // });
 
     return successResponse(res, {
       statusCode: 201,
@@ -52,7 +63,7 @@ const userLogin = async (req, res, next) => {
 
 const userLogout = async (req, res, next) => {
   try {
-    res.clearCookie("access_token");
+    res.clearCookie("accessToken");
 
     return successResponse(res, {
       statusCode: 201,
@@ -63,7 +74,52 @@ const userLogout = async (req, res, next) => {
   }
 };
 
+
+const userTokenRefresh = async (req, res, next) => {
+  try {
+    const oldRefreshToken = req.cookies.refreshToken
+
+
+    // const decoded = jwt.verify(oldRefreshToken,  jwtSecretKey)
+
+    // if{!decoded}{
+    //   throw createError (400, "Invalid refresh token, please login again ")
+    // }
+
+    // const accessToken = await createJsonWebToken(decoded.user, jwtSecretKey, {
+    //   expiresIn: "1min",
+    // });
+
+    // res.cookie("accessToken", accessToken, {
+    //   maxAge: 1 * 60 * 1000,
+    //   httpOnly: true,
+    //   // secure: true,
+    //   sameSite: "none",
+    // });
+
+
+    // const refreshToken = await createJsonWebToken(decoded.user, jwtSecretKey, {
+    //   expiresIn: "7d",
+    // });
+
+    // res.cookie("refreshToken", refreshToken, {
+    //   maxAge: 7 * 24 * 60 * 60 * 1000,
+    //   httpOnly: true,
+    //   // secure: true,
+    //   sameSite: "none",
+    // });
+
+    return successResponse(res, {
+      statusCode: 201,
+      message: "New access token is generated",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   userLogin,
   userLogout,
+  userTokenRefresh 
 };
