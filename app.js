@@ -28,10 +28,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.use("/", (req, res) => {
-  res.send("Hello, Welcome to server");
-});
-
 
 app.use("/api", authRouter);
 app.use("/api/seed", seedRouter);
