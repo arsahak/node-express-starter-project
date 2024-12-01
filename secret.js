@@ -8,7 +8,7 @@ const jwtSecretKey = process.env.JWT_SECRET_KEY || "";
 
 const smptUser = process.env.SMPT_MAIL || "";
 
-const smptPassword = process.env.SMPT_PASSWORD || "";
+const smptPassword = process.env.SMPT_PASSWORD || " ";
 
 const clientUrl = process.env.CLIENT_URL || "";
 
