@@ -28,7 +28,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-
 app.use("/api", authRouter);
 app.use("/api/seed", seedRouter);
 app.use("/api", userRouter);
