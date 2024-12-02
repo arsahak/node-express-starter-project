@@ -11,6 +11,9 @@ const { seedRouter } = require("./routers/seedRouter");
 const { authRouter } = require("./routers/authRouter");
 const { errorResponse } = require("./controllers/responseController");
 
+const data = require("./data");
+const User = require("./models/userModel");
+
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 100,
@@ -35,9 +38,22 @@ app.use("/api/seed", seedRouter);
 app.use("/api", userRouter);
 
 
-app.get("/", (req, res) => {
-  return res.status(201).json({success: true, message:"welcome to the server"});
+app.get("/", async (req, res, next) => {
+  try {
+    // Clear the database
+    await User.deleteMany({});
+
+    // Insert new data
+    const users = await User.insertMany(data);
+
+    // Return the inserted users
+    return res.status(200).json(users);
+  } catch (error) {
+    // Pass the error to the error-handling middleware
+    next(error);
+  }
 });
+
 
 //client error handling
 
