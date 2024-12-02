@@ -34,6 +34,11 @@ app.use("/api", authRouter);
 app.use("/api/seed", seedRouter);
 app.use("/api", userRouter);
 
+
+app.get("/", (req, res) => {
+  return res.status(201).json({success: true, message:"welcome to the server"});
+});
+
 //client error handling
 
 app.use((req, res, next) => {
