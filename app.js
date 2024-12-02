@@ -41,13 +41,13 @@ app.use("/api", userRouter);
 app.get("/", async (req, res, next) => {
   try {
     // Clear the database
-    await User.deleteMany({});
+    // await User.deleteMany({});
 
     // Insert new data
-    const users = await User.insertMany(data);
+    // const users = await User.insertMany(data);
 
     // Return the inserted users
-    return res.status(200).json(users);
+    return res.status(200).json(data);
   } catch (error) {
     // Pass the error to the error-handling middleware
     next(error);
