@@ -12,8 +12,6 @@ const { authRouter } = require("./routers/authRouter");
 const { errorResponse } = require("./controllers/responseController");
 
 
-
-
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 100,
@@ -24,12 +22,17 @@ const limiter = rateLimit({
 
 const app = express();
 
-app.use(
-  cors({
-    origin: ["http://localhost:3000"],
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: ["http://localhost:3000"],
+//     credentials: true,
+//   })
+// );
+
+app.get("/", (req, res) => {
+  return res.status(201).json({success: true, message:"welcome to the server"});
+});
+
 
 app.use(cookieParser());
 app.use(limiter);
@@ -44,9 +47,6 @@ app.use("/api/seed", seedRouter);
 app.use("/api", userRouter);
 
 
-app.get("/", (req, res) => {
-  return res.status(201).json({success: true, message:"welcome to the server"});
-});
 
 //client error handling
 
