@@ -10,6 +10,7 @@ const { userRouter } = require("./routers/userRouter");
 const { seedRouter } = require("./routers/seedRouter");
 const { authRouter } = require("./routers/authRouter");
 const { errorResponse } = require("./controllers/responseController");
+const connectDatabase = require("./config/db");
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -40,6 +41,8 @@ app.get("/", (req, res) => {
 });
 
 //client error handling
+
+connectDatabase()
 
 app.use((req, res, next) => {
   next(createError(404, "route not found"));
