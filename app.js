@@ -21,25 +21,19 @@ const limiter = rateLimit({
 });
 
 const app = express();
-
-// app.use(
-//   cors({
-//     origin: ["http://localhost:3000"],
-//     credentials: true,
-//   })
-// );
-
-app.get("/", (req, res) => {
-  return res.status(201).json({success: true, message:"welcome to the server"});
-});
-
-
+app.use(cors());
 app.use(cookieParser());
 app.use(limiter);
 app.use(xssClean());
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+
+
+app.get("/", (req, res) => {
+  return res.status(201).json({success: true, message:"welcome to the server"});
+});
+
 
 
 app.use("/api", authRouter);
