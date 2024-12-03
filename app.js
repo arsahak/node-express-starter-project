@@ -10,11 +10,9 @@ const { userRouter } = require("./routers/userRouter");
 const { seedRouter } = require("./routers/seedRouter");
 const { authRouter } = require("./routers/authRouter");
 const { errorResponse } = require("./controllers/responseController");
-const connectDatabase = require("./config/db");
 
-(async () => {
-  await connectDatabase();
-})();
+
+
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
