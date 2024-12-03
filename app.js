@@ -12,6 +12,8 @@ const { authRouter } = require("./routers/authRouter");
 const { errorResponse } = require("./controllers/responseController");
 
 
+
+
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 100,
@@ -21,19 +23,14 @@ const limiter = rateLimit({
 });
 
 const app = express();
+
 app.use(cors());
 app.use(cookieParser());
 app.use(limiter);
 app.use(xssClean());
 app.use(morgan("dev"));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
-
-
-app.get("/", (req, res) => {
-  return res.status(201).json({success: true, message:"welcome to the server"});
-});
-
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.use("/api", authRouter);
@@ -41,6 +38,9 @@ app.use("/api/seed", seedRouter);
 app.use("/api", userRouter);
 
 
+app.get("/", (req, res) => {
+  return res.status(201).json({success: true, message:"welcome to the server"});
+});
 
 //client error handling
 
