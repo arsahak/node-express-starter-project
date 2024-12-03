@@ -11,9 +11,6 @@ const { seedRouter } = require("./routers/seedRouter");
 const { authRouter } = require("./routers/authRouter");
 const { errorResponse } = require("./controllers/responseController");
 
-
-
-
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   limit: 100,
@@ -24,9 +21,9 @@ const limiter = rateLimit({
 
 const app = express();
 
-app.use(cors());
 app.use(cookieParser());
 app.use(limiter);
+app.use(cors())
 app.use(xssClean());
 app.use(morgan("dev"));
 app.use(bodyParser.json());
