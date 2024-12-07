@@ -10,6 +10,10 @@ const { userRouter } = require("./routers/userRouter");
 const { seedRouter } = require("./routers/seedRouter");
 const { authRouter } = require("./routers/authRouter");
 const { errorResponse } = require("./controllers/responseController");
+const category = require("./models/category");
+const { categoryRouter } = require("./routers/categoryRouter");
+const { productRouter } = require("./routers/productRouter");
+const { orderRouter } = require("./routers/orderRouter");
 require("./config/db");
 
 const limiter = rateLimit({
@@ -30,10 +34,13 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use("/api/seed", seedRouter);
 
 app.use("/api", authRouter);
-app.use("/api/seed", seedRouter);
 app.use("/api", userRouter);
+app.use("/api", categoryRouter);
+app.use("/api", productRouter);
+app.use("/api", orderRouter);
 
 
 app.get("/", (req, res) => {
